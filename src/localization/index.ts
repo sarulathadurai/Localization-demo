@@ -11,16 +11,19 @@ i18n
       en: {
         translation: {
           'Welcome to NativeBase': 'Welcome to NativeBase',
+          ' Learn NativeBase': ' Learn NativeBase',
         },
       },
       ta: {
         translation: {
           'Welcome to NativeBase': 'நேட்டிவ் பேஸுக்கு வரவேற்கிறோம்',
+          'Learn NativeBase': 'நேட்டிவ் பேஸ் அறிய',
         },
       },
       hi: {
         translation: {
           'Welcome to NativeBase': 'नेटिवबेस में आपका स्वागत है',
+          'Learn NativeBase': 'नेटिवबेस सीखें',
         },
       },
     },
