@@ -11,7 +11,7 @@ i18n
       en: {
         translation: {
           'Welcome to NativeBase': 'Welcome to NativeBase',
-          ' Learn NativeBase': ' Learn NativeBase',
+          'Learn NativeBase': 'Learn NativeBase',
         },
       },
       ta: {
