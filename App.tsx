@@ -1,106 +1,132 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * Generated with the TypeScript template
- * https://github.com/react-native-community/react-native-template-typescript
- *
- * @format
- */
-
-import React, {useState} from 'react';
+import React from 'react';
 import {
-  Link,
   Text,
-  HStack,
-  Center,
-  Heading,
-  Switch,
-  useColorMode,
+  Flex,
   NativeBaseProvider,
-  VStack,
-  Menu,
   Box,
   HamburgerIcon,
-  Pressable,
+  Icon,
+  Avatar,
+  FlatList,
 } from 'native-base';
-import NativeBaseIcon from './src/components/NativeBaseIcon';
 import './src/localization';
 import {useTranslation} from 'react-i18next';
-import {SafeAreaView} from 'react-native-safe-area-context';
-
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import {Dimensions} from 'react-native';
+import {menuData, transactions, transactionType} from './constants';
 // Color Switch Component
-function ToggleDarkMode() {
-  const {colorMode, toggleColorMode} = useColorMode();
 
+function ActionItems({
+  name,
+  title,
+  isLastIndex,
+}: {
+  name: string;
+  title: string;
+  isLastIndex: boolean;
+}) {
   return (
-    <HStack space={2} alignItems="center">
-      <Text>Dark</Text>
-      <Switch
-        isChecked={colorMode === 'light'}
-        onToggle={toggleColorMode}
-        aria-label={
-          colorMode === 'light' ? 'switch to dark mode' : 'switch to light mode'
-        }
-      />
-      <Text>Light</Text>
-    </HStack>
+    <Box
+      justifyContent="center"
+      alignItems="center"
+      bg={isLastIndex ? 'yellow.300' : 'white'}
+      flex={1}
+      rounded={100}
+      w={Dimensions.get('window').width / 3}>
+      <Icon as={Ionicons} name={name} size="xl" color="black" />
+      <Text>{title}</Text>
+    </Box>
   );
 }
+
+const TransactionItem = ({item}: {item: transactionType}) => {
+  const {icon, title, amount, time} = item;
+  return (
+    <Flex direction="row" my={3}>
+      <Box rounded={100} bg="black" p={2} alignItems="center" mr={4}>
+        <Icon as={Ionicons} name={icon} size="xl" color="white" />
+      </Box>
+      <Box flex={1}>
+        <Text fontSize={'md'}>{title}</Text>
+        <Text>{time}</Text>
+      </Box>
+      <Text bold>{amount}</Text>
+    </Flex>
+  );
+};
+
 const App = () => {
   const {t} = useTranslation();
-  const [language, setLanguage] = useState('en');
+  // const [language, setLanguage] = useState('en');
   return (
     <NativeBaseProvider>
-      <SafeAreaView>
-        <Box w="90%" alignItems="flex-end">
-          <Menu
-            w="190"
-            trigger={triggerProps => {
-              return (
-                <Pressable
-                  accessibilityLabel="More options menu"
-                  {...triggerProps}>
-                  <HamburgerIcon />
-                </Pressable>
-              );
-            }}>
-            <Menu.Item onPress={() => setLanguage('ta')}>Tamil</Menu.Item>
-            <Menu.Item onPress={() => setLanguage('hi')}>Hindi</Menu.Item>
-            <Menu.Item onPress={() => setLanguage('en')}>English</Menu.Item>
-          </Menu>
+      <Box bgColor="black" flex={1}>
+        <Box w="100%" h={'12%'} bgColor="white" mt={3} borderRadius={30}>
+          <Flex direction="row" mt={10} mx={7}>
+            <Avatar
+              bg="cyan.500"
+              mr={3}
+              source={{
+                uri: 'https://images.unsplash.com/photo-1603415526960-f7e0328c63b1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80',
+              }}>
+              TE
+            </Avatar>
+            <Flex>
+              <Text>Balance</Text>
+              <Text bold fontSize="xl">
+                Rs. 39,000
+              </Text>
+            </Flex>
+            <Flex direction="row" flex={1} justifyContent="flex-end">
+              <HamburgerIcon />
+            </Flex>
+          </Flex>
         </Box>
-      </SafeAreaView>
-      <Center
-        _dark={{bg: 'blueGray.900'}}
-        _light={{bg: 'blueGray.50'}}
-        px={4}
-        flex={1}>
-        <VStack space={5} alignItems="center">
-          <NativeBaseIcon />
-          <Heading size="lg">
-            {' '}
-            {t('Welcome to NativeBase', {lng: language})}
-          </Heading>
-          <HStack space={2} alignItems="center">
-            <Text>Edit</Text>
-            <Box
-              px={2}
-              py={1}
-              _dark={{bg: 'blueGray.800'}}
-              _light={{bg: 'blueGray.200'}}>
-              App.js
-            </Box>
-            <Text>and save to reload.</Text>
-          </HStack>
-          <Link href="https://docs.nativebase.io" isExternal>
-            <Text color="primary.500" underline fontSize={'xl'}>
-              {t('Learn NativeBase', {lng: language})}
+        <Box
+          w="100%"
+          h={'25%'}
+          bg="purple.500"
+          borderRadius={30}
+          p={10}
+          justifyContent="space-between">
+          <Text color="white">Omnium</Text>
+          <Box>
+            <Text color="white" fontSize="xl">
+              5882 3456 7990 1389
             </Text>
-          </Link>
-          <ToggleDarkMode />
-        </VStack>
-      </Center>
+            <Text color="white" fontSize="sm" mt={3}>
+              12/23
+            </Text>
+          </Box>
+        </Box>
+        <Box h={'15%'}>
+          <FlatList
+            horizontal
+            data={menuData}
+            keyExtractor={item => item.id}
+            renderItem={({item, index}) => (
+              <ActionItems
+                name={item.name}
+                title={item.title}
+                isLastIndex={index === menuData.length - 1}
+              />
+            )}
+          />
+        </Box>
+        <Box flex={1} bgColor="white" rounded={30} p={10}>
+          <Flex direction="row" justifyContent={'space-between'}>
+            <Text fontSize="xl" bold>
+              Transactions
+            </Text>
+            <Icon as={Ionicons} name="search" size="xl" />
+          </Flex>
+          <FlatList
+            data={transactions}
+            keyExtractor={item => item.id}
+            renderItem={({item}) => <TransactionItem item={item} />}
+          />
+        </Box>
+      </Box>
     </NativeBaseProvider>
   );
 };
