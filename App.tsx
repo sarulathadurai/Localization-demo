@@ -25,6 +25,7 @@ function ActionItems({
   title: string;
   isLastIndex: boolean;
 }) {
+  const {t} = useTranslation();
   return (
     <Box
       justifyContent="center"
@@ -34,12 +35,13 @@ function ActionItems({
       rounded={100}
       w={Dimensions.get('window').width / 3}>
       <Icon as={Ionicons} name={name} size="xl" color="black" />
-      <Text>{title}</Text>
+      <Text>{t(title)}</Text>
     </Box>
   );
 }
 
 const TransactionItem = ({item}: {item: transactionType}) => {
+  const {t} = useTranslation();
   const {icon, title, amount, time} = item;
   return (
     <Flex direction="row" my={3}>
@@ -47,7 +49,7 @@ const TransactionItem = ({item}: {item: transactionType}) => {
         <Icon as={Ionicons} name={icon} size="xl" color="white" />
       </Box>
       <Box flex={1}>
-        <Text fontSize={'md'}>{title}</Text>
+        <Text fontSize={'md'}>{t(title)}</Text>
         <Text>{time}</Text>
       </Box>
       <Text bold>{amount}</Text>
@@ -61,8 +63,11 @@ const App = () => {
   return (
     <NativeBaseProvider>
       <Box bgColor="black" flex={1}>
-        <Box w="100%" h={'12%'} bgColor="white" mt={3} borderRadius={30}>
-          <Flex direction="row" mt={10} mx={7}>
+        <Box w="100%" h={'15%'} bgColor="white" mt={3} borderRadius={30}>
+          <Text mt={10} mx={7}>
+            {t('Welcome', {name: 'Sarulatha'})}
+          </Text>
+          <Flex direction="row" mx={7} mt={2}>
             <Avatar
               bg="cyan.500"
               mr={3}
@@ -72,7 +77,7 @@ const App = () => {
               TE
             </Avatar>
             <Flex>
-              <Text>Balance</Text>
+              <Text>{t('Balance')}</Text>
               <Text bold fontSize="xl">
                 Rs. 39,000
               </Text>
@@ -104,6 +109,7 @@ const App = () => {
             horizontal
             data={menuData}
             keyExtractor={item => item.id}
+            scrollEnabled={false}
             renderItem={({item, index}) => (
               <ActionItems
                 name={item.name}
@@ -123,6 +129,7 @@ const App = () => {
           <FlatList
             data={transactions}
             keyExtractor={item => item.id}
+            showsVerticalScrollIndicator={false}
             renderItem={({item}) => <TransactionItem item={item} />}
           />
         </Box>

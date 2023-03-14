@@ -10,20 +10,30 @@ i18n
     resources: {
       en: {
         translation: {
-          'Welcome to NativeBase': 'Welcome to NativeBase',
-          'Learn NativeBase': 'Learn NativeBase',
-        },
-      },
-      ta: {
-        translation: {
-          'Welcome to NativeBase': 'நேட்டிவ் பேஸுக்கு வரவேற்கிறோம்',
-          'Learn NativeBase': 'நேட்டிவ் பேஸ் அறிய',
+          Welcome: 'Welcome {{name}}',
+          Balance: 'Balance',
+          Transactions: 'Transactions',
+          'food store': 'food store',
+          'house Rent': 'house Rent',
+          Uber: 'Uber',
+          'Cloth Merchant': 'Cloth Merchant',
+          send: 'send',
+          request: 'request',
+          more: 'more',
         },
       },
       hi: {
         translation: {
-          'Welcome to NativeBase': 'नेटिवबेस में आपका स्वागत है',
-          'Learn NativeBase': 'नेटिवबेस सीखें',
+          Welcome: 'स्वागत {{name}}',
+          Balance: 'शेष',
+          Transactions: 'लेनदेन',
+          'food store': 'खाने की दुकान',
+          'house Rent': 'मकान किराया',
+          Uber: 'उबेर',
+          'Cloth Merchant': 'कपड़ा व्यापारी',
+          send: 'भेजना',
+          request: 'अनुरोध',
+          more: 'अधिक',
         },
       },
     },
