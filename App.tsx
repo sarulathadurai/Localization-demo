@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   Text,
   Flex,
@@ -8,6 +8,8 @@ import {
   Icon,
   Avatar,
   FlatList,
+  Pressable,
+  Menu,
 } from 'native-base';
 import './src/localization';
 import {useTranslation} from 'react-i18next';
@@ -20,10 +22,12 @@ function ActionItems({
   name,
   title,
   isLastIndex,
+  language,
 }: {
   name: string;
   title: string;
   isLastIndex: boolean;
+  language: string;
 }) {
   const {t} = useTranslation();
   return (
@@ -32,15 +36,23 @@ function ActionItems({
       alignItems="center"
       bg={isLastIndex ? 'yellow.300' : 'white'}
       flex={1}
-      rounded={100}
-      w={Dimensions.get('window').width / 3}>
+      rounded={30}
+      mx={2}
+      my={2}
+      w={Dimensions.get('window').width / 3.5}>
       <Icon as={Ionicons} name={name} size="xl" color="black" />
       <Text>{t(title)}</Text>
     </Box>
   );
 }
 
-const TransactionItem = ({item}: {item: transactionType}) => {
+const TransactionItem = ({
+  item,
+  language,
+}: {
+  item: transactionType;
+  language: string;
+}) => {
   const {t} = useTranslation();
   const {icon, title, amount, time} = item;
   return (
@@ -49,7 +61,7 @@ const TransactionItem = ({item}: {item: transactionType}) => {
         <Icon as={Ionicons} name={icon} size="xl" color="white" />
       </Box>
       <Box flex={1}>
-        <Text fontSize={'md'}>{t(title)}</Text>
+        <Text fontSize={'md'}>{t(title, {lng: language})}</Text>
         <Text>{time}</Text>
       </Box>
       <Text bold>{amount}</Text>
@@ -59,13 +71,13 @@ const TransactionItem = ({item}: {item: transactionType}) => {
 
 const App = () => {
   const {t} = useTranslation();
-  // const [language, setLanguage] = useState('en');
+  const [language, setLanguage] = useState('en');
   return (
     <NativeBaseProvider>
       <Box bgColor="black" flex={1}>
         <Box w="100%" h={'15%'} bgColor="white" mt={3} borderRadius={30}>
           <Text mt={10} mx={7}>
-            {t('Welcome', {name: 'Sarulatha'})}
+            {t('Welcome', {name: 'Sarulatha', lng: language})}
           </Text>
           <Flex direction="row" mx={7} mt={2}>
             <Avatar
@@ -77,13 +89,27 @@ const App = () => {
               TE
             </Avatar>
             <Flex>
-              <Text>{t('Balance')}</Text>
+              <Text>{t('Balance', {lng: language})}</Text>
               <Text bold fontSize="xl">
                 Rs. 39,000
               </Text>
             </Flex>
             <Flex direction="row" flex={1} justifyContent="flex-end">
-              <HamburgerIcon />
+              <Menu
+                w="190"
+                trigger={triggerProps => {
+                  return (
+                    <Pressable
+                      accessibilityLabel="More options menu"
+                      {...triggerProps}>
+                      <HamburgerIcon />
+                    </Pressable>
+                  );
+                }}>
+                <Menu.Item onPress={() => setLanguage('ta')}>Tamil</Menu.Item>
+                <Menu.Item onPress={() => setLanguage('hi')}>Hindi</Menu.Item>
+                <Menu.Item onPress={() => setLanguage('en')}>English</Menu.Item>
+              </Menu>
             </Flex>
           </Flex>
         </Box>
@@ -115,6 +141,7 @@ const App = () => {
                 name={item.name}
                 title={item.title}
                 isLastIndex={index === menuData.length - 1}
+                language={language}
               />
             )}
           />
@@ -122,7 +149,7 @@ const App = () => {
         <Box flex={1} bgColor="white" rounded={30} p={10}>
           <Flex direction="row" justifyContent={'space-between'}>
             <Text fontSize="xl" bold>
-              Transactions
+              {t('Transactions', {lng: language})}
             </Text>
             <Icon as={Ionicons} name="search" size="xl" />
           </Flex>
@@ -130,7 +157,9 @@ const App = () => {
             data={transactions}
             keyExtractor={item => item.id}
             showsVerticalScrollIndicator={false}
-            renderItem={({item}) => <TransactionItem item={item} />}
+            renderItem={({item}) => (
+              <TransactionItem item={item} language={language} />
+            )}
           />
         </Box>
       </Box>
