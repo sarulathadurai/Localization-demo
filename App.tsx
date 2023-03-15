@@ -41,7 +41,7 @@ function ActionItems({
       my={2}
       w={Dimensions.get('window').width / 3.5}>
       <Icon as={Ionicons} name={name} size="xl" color="black" />
-      <Text>{t(title)}</Text>
+      <Text>{t(title, {lng: language})}</Text>
     </Box>
   );
 }
